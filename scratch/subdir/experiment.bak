@@ -1,0 +1,133 @@
+#include "ns3/core-module.h"
+/*
+#include "ns3/config-store-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/ipv4-list-routing-helper.h"
+#include "ns3/ipv4-list-routing.h"
+#include "ns3/ipv4-static-routing-helper.h"
+#include "ns3/mobility-module.h"
+#include "ns3/netanim-module.h"
+#include "ns3/network-module.h"
+#include "ns3/object.h"
+#include "ns3/olsr-helper.h"
+#include "ns3/olsr-repositories.h"
+#include "ns3/olsr-routing-protocol.h"
+#include "ns3/stats-module.h"
+#include "ns3/wifi-module.h"
+
+//#include "ns3/collision-avoidance-helper.h"
+
+#include "ns3/MaliciousDroneHelper.h"
+#include "ns3/SatelliteHelper.h"
+#include "ns3/normal-drone-helper.h"
+
+// #include "ns3/rng-seed-manager.h"
+
+#include <ns3/itu-r-1411-los-propagation-loss-model.h>
+#include <ns3/lr-wpan-module.h>
+#include <ns3/lr-wpan-spectrum-value-helper.h>
+#include <ns3/multi-model-spectrum-channel.h>
+#include <ns3/propagation-delay-model.h>
+#include <ns3/propagation-loss-model.h>
+#include <ns3/single-model-spectrum-channel.h>
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+*/
+
+
+using namespace ns3;
+
+NS_LOG_COMPONENT_DEFINE("Experiment");
+
+TypeId
+Experiment::GetTypeId(void)
+{
+    NS_LOG_INFO("Startt : GetTypeId");
+    static TypeId tid =
+        TypeId("ns3::Experiment")
+            .SetParent<Object>()
+            .SetGroupName("Experiments")
+            .AddConstructor<Experiment>()
+            .AddAttribute("CollisionPacketSize",
+                "The size of the packets used for the CollisionAvoidanceApp.",
+                UintegerValue(1024),
+                MakeUintegerAccessor(&Experiment::m_PacketSize),
+                MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute(
+                "CollisionPacketFrequency",
+                "The interval in seconds of how often CollisionAvoidance packets should be sent.",
+                DoubleValue(1),
+                MakeDoubleAccessor(&Experiment::m_DataUavFrequency),
+                MakeDoubleChecker<double>())
+            .AddAttribute(
+                "ImagePacketSize",
+                "The size of the packets used for the ImageManagementApp (app not yet created).",
+                UintegerValue(5 * 1024 * 1024),
+                MakeUintegerAccessor(&Experiment::m_imagePacketSize),
+                MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute(
+                "ImagePacketFrequency",
+                "The interval in seconds of how often ImageManagementApp packets should be sent.",
+                DoubleValue(10.0),
+                MakeDoubleAccessor(&Experiment::m_imageFrequency),
+                MakeDoubleChecker<double>())
+            .AddAttribute("NumDrones",
+                          "The number of drones to use in the experiment.",
+                          UintegerValue(30),
+                          MakeUintegerAccessor(&Experiment::m_numDrones),
+                          MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute("PHYmode",
+                          "The PHY mode to use for the PHY layer.",
+                          StringValue("OfdmRate6Mbps"),
+                          MakeStringAccessor(&Experiment::m_phyMode),
+                          MakeStringChecker())
+            .AddAttribute("MaxX",
+                          "The right most wall of the drone environment.",
+                          UintegerValue(1000),
+                          MakeUintegerAccessor(&Experiment::m_maxX),
+                          MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute("MinX",
+                          "The left most wall of the drone environment.",
+                          UintegerValue(0),
+                          MakeUintegerAccessor(&Experiment::m_minX),
+                          MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute("MaxY",
+                          "The upper most wall of the drone environment.",
+                          UintegerValue(1000),
+                          MakeUintegerAccessor(&Experiment::m_maxY),
+                          MakeUintegerChecker<uint32_t>(1))
+            .AddAttribute("MinY",
+                          "The bottom most wall of the drone environment.",
+                          UintegerValue(0),
+                          MakeUintegerAccessor(&Experiment::m_minY),
+                          MakeUintegerChecker<uint32_t>(1));
+
+    NS_LOG_INFO("Finish : GetTypeId");
+    return tid;
+}
+
+Experiment::Experiment()
+    : m_numDrones(10),
+      m_maxX(1000),
+      m_minX(0),
+      m_maxY(1000),
+      m_minY(0),
+      m_PacketSize(4),
+      m_DataUavFrequency(1),
+      m_imagePacketSize(5 * 1024 * 1024),
+      m_imageFrequency(10.0),
+      m_phyMode("OfdmRate6Mbps")
+
+{
+    NS_LOG_INFO("Start & Finish Experiment : initialiser automatique");
+}
+
+Experiment::~Experiment()
+{
+    NS_LOG_INFO("Start and Finish Experiment : without Initialization");
+}

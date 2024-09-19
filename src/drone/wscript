@@ -1,0 +1,26 @@
+## -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+def build(bld):
+    module = bld.create_ns3_module('drone', ['internet', 'wifi', 'applications','olsr','config-store','stats'])
+    module.source = [
+
+        'model/normal-drone-app.cpp',
+        'model/Malicious.cpp',
+        'model/Satellite-app.cpp',
+        'helper/normal-drone-helper.cpp',
+        'helper/MaliciousDroneHelper.cpp',
+        'helper/SatelliteHelper.cpp',
+         
+        ]
+
+    headers = bld(features='ns3header')
+    headers.module = 'drone'
+    headers.source = [
+       
+        'model/normal-drone-app.h',
+        'model/Malicious.h',
+        'model/Satellite-app.h',
+        'helper/normal-drone-helper.h',
+        'helper/MaliciousDroneHelper.h',
+        'helper/SatelliteHelper.h',
+        ]
